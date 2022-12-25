@@ -13,7 +13,7 @@ pip install sim-modem
 ```python
 from sim-modem import Modem
 
-modem = Modem('/dev/ttyS0')
+modem = Modem('/dev/ttyUSB2')
 
 signal_quality = modem.get_signal_quality()
 print(signal_quality)

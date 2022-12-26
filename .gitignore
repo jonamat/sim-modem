@@ -1,3 +1,9 @@
 .vscode
 .env
 .python-version
+.pypirc
+/dist
+/build
+*.egg-info
+__pycache__
+/dev_notes

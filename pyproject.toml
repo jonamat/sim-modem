@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sim-modem"
+version = "1.0.1"
+description = "Easy library for interfacing with mobile modems"
+readme = "README.md"
+keywords = ["modem", "sms", "gsm", "sim", "atcommands"]
+requires-python = ">=3.7"
+license = {text = "BSD 3-Clause License"}
+dependencies = [
+    'pyserial==3.5'
+]
+
+[project.urls]
+Repository = "https://github.com/jonamat/sim-modem"

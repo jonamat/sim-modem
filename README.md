@@ -11,7 +11,7 @@ pip install sim-modem
 ## Usage
     
 ```python
-from sim-modem import Modem
+from sim_modem import Modem
 
 modem = Modem('/dev/ttyUSB2')
 

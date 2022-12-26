@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sim-modem"
-version = "1.0.1"
+version = "1.0.2"
 description = "Easy library for interfacing with mobile modems"
 readme = "README.md"
 keywords = ["modem", "sms", "gsm", "sim", "atcommands"]
 requires-python = ">=3.7"
-license = {text = "BSD 3-Clause License"}
+license = {text = "MIT"}
 dependencies = [
     'pyserial==3.5'
 ]

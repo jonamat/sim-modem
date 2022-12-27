@@ -2,8 +2,6 @@ from serial_comm import SerialComm
 from enum import Enum
 from logging import getLogger
 
-logger = getLogger(__name__)
-
 
 class NetworkMode(Enum):
     """Network mode of the modem (get/set)"""
@@ -50,7 +48,7 @@ class Modem:
             raise Exception("Modem do not respond", read)
 
         if self.debug:
-            logger.debug("Modem connected, debug mode enabled")
+            print("Modem connected, debug mode enabled")
 
     def reconnect(self) -> None:
         try:
@@ -73,7 +71,7 @@ class Modem:
             raise Exception("Connection lost", read)
 
         if self.debug:
-            logger.debug("Modem connected, debug mode enabled")
+            print("Modem connected, debug mode enabled")
 
     def close(self) -> None:
         self.comm.close()
@@ -86,13 +84,13 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGMI")
+            print("Sending: AT+CGMI")
 
         self.comm.send("AT+CGMI")
         read = self.comm.read_lines()
 
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
         # ['AT+CGMI', 'SIMCOM INCORPORATED', '', 'OK']
 
         if read[-1] != "OK":
@@ -105,14 +103,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGMM")
+            print("Sending: AT+CGMM")
 
         self.comm.send("AT+CGMM")
         read = self.comm.read_lines()
 
         # ['AT+CGMM', 'SIM7000E', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -124,14 +122,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGSN")
+            print("Sending: AT+CGSN")
 
         self.comm.send("AT+CGSN")
         read = self.comm.read_lines()
 
         # ['AT+CGSN', '89014103211118510700', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -143,14 +141,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGMR")
+            print("Sending: AT+CGMR")
 
         self.comm.send("AT+CGMR")
         read = self.comm.read_lines()
 
         # ['AT+CGMR', '+CGMR: LE20B03SIM7600M22', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -162,14 +160,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CLVL")
+            print("Sending: AT+CLVL")
 
         self.comm.send("AT+CLVL?")
         read = self.comm.read_lines()
 
         # ['AT+CLVL?', '+CLVL: 5', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -181,7 +179,7 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CLVL={}".format(volume))
+            print("Sending: AT+CLVL={}".format(volume))
 
         if int(volume) < 0 or int(volume) > 5:
             raise Exception("Volume must be between 0 and 5")
@@ -190,7 +188,7 @@ class Modem:
 
         # ['AT+CLVL=5', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -202,7 +200,7 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+AT+PWRCTL=0,1,3")
+            print("Sending: AT+AT+PWRCTL=0,1,3")
 
         # ['AT+AT+PWRCTL=?', '+PWRCTL: (0-1),(0-1),(0-3)', '', 'OK']
         self.comm.send("AT+PWRCTL=0,1,3")
@@ -210,7 +208,7 @@ class Modem:
 
         # ['AT+PWRCTL=0,1,3', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -222,7 +220,7 @@ class Modem:
     #     # ['AT+CRESET', 'OK']
     #     if read[-1] != "OK":
     #         raise Exception("Command failed")
-    #     logger.debug("Connection lost")
+    #     print("Connection lost")
     #     exit()
 
     def enable_echo_suppression(self) -> str:
@@ -231,14 +229,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CECM=1")
+            print("Sending: AT+CECM=1")
 
         self.comm.send("AT+CECM=1")
         read = self.comm.read_lines()
 
         # ['AT+CECM=1', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -250,14 +248,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CECM=0")
+            print("Sending: AT+CECM=0")
 
         self.comm.send("AT+CECM=0")
         read = self.comm.read_lines()
 
         # ['AT+CECM=0', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -271,14 +269,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CREG?")
+            print("Sending: AT+CREG?")
 
         self.comm.send("AT+CREG?")
         read = self.comm.read_lines()
 
         # ['AT+CREG?', '+CREG: 0,1', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -290,14 +288,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CNMP?")
+            print("Sending: AT+CNMP?")
 
         self.comm.send("AT+CNMP?")
         read = self.comm.read_lines()
 
         # ['AT+CNMP?', '+CNMP: 2', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -311,14 +309,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+COPS?")
+            print("Sending: AT+COPS?")
 
         self.comm.send("AT+COPS?")
         read = self.comm.read_lines()
 
         # ['AT+COPS?', '+COPS: 0,0,"Vodafone D2",7', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -330,14 +328,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+COPS?")
+            print("Sending: AT+COPS?")
 
         self.comm.send("AT+COPS?")
         read = self.comm.read_lines()
 
         # ['AT+COPS?', '+COPS: 0,0,"Vodafone D2",7', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -349,14 +347,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CSQ")
+            print("Sending: AT+CSQ")
 
         self.comm.send("AT+CSQ")
         read = self.comm.read_lines()
 
         # ['AT+CSQ', '+CSQ: 19,99', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -368,14 +366,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CSQ")
+            print("Sending: AT+CSQ")
 
         self.comm.send("AT+CSQ")
         read = self.comm.read_lines()
 
         # ['AT+CSQ', '+CSQ: 19,99', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -388,14 +386,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CSQ")
+            print("Sending: AT+CSQ")
 
         self.comm.send("AT+CSQ")
         read = self.comm.read_lines()
 
         # ['AT+CSQ', '+CSQ: 19,99', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -415,7 +413,7 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CNUM")
+            print("Sending: AT+CNUM")
 
         self.comm.send("AT+CNUM")
         read = self.comm.read_lines()
@@ -423,7 +421,7 @@ class Modem:
         # ['AT+CNUM', '+CNUM: ,"+491234567890",145', '', 'OK']
         # ['AT+CNUM', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK" or read[1] == "OK":
             raise Exception("Command failed")
@@ -435,14 +433,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CPIN?")
+            print("Sending: AT+CPIN?")
 
         self.comm.send("AT+CPIN?")
         read = self.comm.read_lines()
 
         # ['AT+CPIN?', '+CPIN: READY', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         return read[1].split(": ")[1]
 
@@ -462,14 +460,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGPS?")
+            print("Sending: AT+CGPS?")
 
         self.comm.send("AT+CGPS?")
         read = self.comm.read_lines()
 
         # ['AT+CGPS?', '+CGPS: 0,1', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -481,14 +479,14 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGPS=1,1")
+            print("Sending: AT+CGPS=1,1")
 
         self.comm.send("AT+CGPS=1,1")
         read = self.comm.read_lines()
 
         # ['AT+CGPS=1', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -500,7 +498,7 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGPS=0")
+            print("Sending: AT+CGPS=0")
 
         self.comm.send("AT+CGPS=0")
         read = self.comm.read_lines()
@@ -508,7 +506,7 @@ class Modem:
         # ['AT+CGPS=0', 'OK', '', '+CGPS: 0']
         # ['AT+CGPS=0', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] == "+CGPS: 0" or read[-1] == "OK":
             raise Exception("Command failed")
@@ -520,8 +518,8 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CGPS=1,1")
-            logger.debug("Sending: AT+CGPSINFO")
+            print("Sending: AT+CGPS=1,1")
+            print("Sending: AT+CGPSINFO")
 
         self.comm.send("AT+CGPS=1,1")
         self.comm.send("AT+CGPSINFO")
@@ -532,7 +530,7 @@ class Modem:
         # ['AT+CGPS=1', 'OK', 'AT+CGPSINFO', '+CGPSINFO: 1831.991044,N,07352.807453,E,141008,112307.0,553.9,0.0,113', 'OK']
         # ['AT+CGPS=1', 'OK', 'AT+CGPSINFO', '+CGPSINFO: ,,,,,,,,', '', 'OK'] # if no gps signal
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -554,8 +552,8 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CMGF=1")
-            logger.debug('Sending: AT+CMGL="ALL"')
+            print("Sending: AT+CMGF=1")
+            print('Sending: AT+CMGL="ALL"')
 
         self.comm.send("AT+CMGF=1")
         self.comm.send('AT+CMGL="ALL"')
@@ -581,7 +579,7 @@ class Modem:
 
         # ['AT+CMGL="ALL"', '+CMGL: 1,"REC READ","+491234567890",,"12/08/14,14:01:06+32"', 'Test', '', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -593,8 +591,8 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CMGF=1")
-            logger.debug("Sending: AT+CMGD=1,4")
+            print("Sending: AT+CMGF=1")
+            print("Sending: AT+CMGD=1,4")
 
         self.comm.send("AT+CMGF=1")
         self.comm.send("AT+CMGD=1,4")
@@ -602,7 +600,7 @@ class Modem:
 
         # ['AT+CMGF=1', 'OK', 'AT+CMGD=1,4', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -613,10 +611,10 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CMGF=1")
-            logger.debug('Sending: AT+CMGS="{}"'.format(recipient))
-            logger.debug("Sending: {}".format(message))
-            logger.debug("Sending: {}".format(chr(26)))
+            print("Sending: AT+CMGF=1")
+            print('Sending: AT+CMGS="{}"'.format(recipient))
+            print("Sending: {}".format(message))
+            print("Sending: {}".format(chr(26)))
 
         self.comm.send("AT+CMGF=1")
         self.comm.send('AT+CMGS="{}"'.format(recipient))
@@ -626,7 +624,7 @@ class Modem:
 
         # ['AT+CMGF=1', 'OK', 'AT+CMGS="491234567890"', '', '> Test', chr(26), 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -639,8 +637,8 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CMGF=1")
-            logger.debug("Sending: AT+CMGR={}".format(slot))
+            print("Sending: AT+CMGF=1")
+            print("Sending: AT+CMGR={}".format(slot))
 
         self.comm.send("AT+CMGF=1")
         self.comm.send("AT+CMGR={}".format(slot))
@@ -649,7 +647,7 @@ class Modem:
         # ['AT+CMGF=1', 'OK', 'AT+CMGR=1', '+CMGR: "REC READ","+491234567890",,"12/08/14,14:01:06+32"', 'Test', '', 'OK']
         # ['AT+CMGF=1', 'OK'] # if empty
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if len(read) < 3 or read[-1] != "OK":
             raise Exception("Command failed")
@@ -667,8 +665,8 @@ class Modem:
             read = self.comm.read_lines()
             if read[-1] != "OK":
                 raise Exception("Unsupported command")
-            logger.debug("Sending: AT+CMGF=1")
-            logger.debug("Sending: AT+CMGD={}".format(slot))
+            print("Sending: AT+CMGF=1")
+            print("Sending: AT+CMGD={}".format(slot))
 
         self.comm.send("AT+CMGF=1")
         self.comm.send("AT+CMGD={}".format(slot))
@@ -676,7 +674,7 @@ class Modem:
 
         # ['AT+CMGF=1', 'OK', 'AT+CMGD=1', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -686,14 +684,14 @@ class Modem:
 
     def call(self, number: str) -> str:
         if self.debug:
-            logger.debug("Sending: ATD{};".format(number))
+            print("Sending: ATD{};".format(number))
 
         self.comm.send("ATD{};".format(number))
         read = self.comm.read_lines()
 
         # ['ATD491234567890;', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -701,14 +699,14 @@ class Modem:
 
     def answer(self) -> str:
         if self.debug:
-            logger.debug("Sending: ATA")
+            print("Sending: ATA")
 
         self.comm.send("ATA")
         read = self.comm.read_lines()
 
         # ['ATA', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")
@@ -716,14 +714,14 @@ class Modem:
 
     def hangup(self) -> str:
         if self.debug:
-            logger.debug("Sending: AT+CHUP")
+            print("Sending: AT+CHUP")
 
         self.comm.send("AT+CHUP")
         read = self.comm.read_lines()
 
         # ['AT+CHUP', 'OK']
         if self.debug:
-            logger.debug("Device responded: ", read)
+            print("Device responded: ", read)
 
         if read[-1] != "OK":
             raise Exception("Command failed")

@@ -183,7 +183,7 @@ class Modem:
                 raise Exception("Unsupported command")
             logger.debug("Sending: AT+CLVL={}".format(volume))
 
-        if volume < 0 or volume > 5:
+        if int(volume) < 0 or int(volume) > 5:
             raise Exception("Volume must be between 0 and 5")
         self.comm.send("AT+CLVL={}".format(volume))
         read = self.comm.read_lines()

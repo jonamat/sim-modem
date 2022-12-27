@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sim-modem"
-version = "1.0.2"
+version = "1.0.3"
 description = "Easy library for interfacing with mobile modems"
 readme = "README.md"
 keywords = ["modem", "sms", "gsm", "sim", "atcommands"]
